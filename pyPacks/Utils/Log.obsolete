@@ -1,0 +1,97 @@
+#!/usr/bin/pythonTest
+# -*- coding: utf-8 -*-
+#
+# Utility functions Log
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Library General Public License for more details.
+#
+# The GNU General Public License is available from:
+#   The Free Software Foundation, Inc.
+#   59 Temple Place - Suite 330
+#   Boston, MA 02111-1307, USA
+#
+#   http://www.gnu.org/licenses/gpl.html
+#
+# Copyright 2004-2010 Rick Graves
+#
+#
+# from logger import Logger 
+# python now provides logging
+
+from Utils.BoolVals import *
+
+
+class NonRedundantLogger( Logger ):
+    #
+    def __init__( self, *args, **kargs ):
+        #
+        Logger.__init__( self, *args, **kargs )
+        #
+        from Collect.Set import getSet
+        #
+        self.setAlreadyLogged = getSet( [] )
+        #
+    def log( self, priority, message=None ):
+        #
+        bPutMsgInLog    = True
+        #
+        if type( message ) == str:
+            #
+            if message in self.setAlreadyLogged:
+                #
+                bPutMsgInLog = False
+                #
+            else:
+                #
+                self.setAlreadyLogged.add( message )
+                #
+        #
+        if bPutMsgInLog:
+            #
+            Logger.log( self, priority, message )
+
+
+
+
+
+if __name__ == '__main__':
+    #
+    from File.Del       import DeleteIfExists
+    from File.Get       import GetFileContent
+    from String.Count   import OccursIn
+    from Utils.Output import sayTestResult
+    #
+    lProblems = []
+    #
+    DeleteIfExists( '/tmp/temp.log' )
+    #
+    fLogFile        = open( '/tmp/temp.log', 'a' )
+    #
+    oLogger         = NonRedundantLogger( threshold=2, file_object=fLogFile )
+    #
+    sLogText        = 'This is a test of the non-redundant logger.'
+    #
+    oLogger.log( 3, sLogText )
+    oLogger.log( 3, sLogText )
+    #
+    fLogFile.close()
+    #
+    sContent        = GetFileContent( '/tmp/temp.log' )
+    #
+    iGot            = OccursIn( sContent, sLogText )
+    #
+    if iGot > 1:
+        #
+        lProblems.append( 'NonRedundantLogger()' )
+        #
+
+    #
+    sayTestResult( lProblems )
