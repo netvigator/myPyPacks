@@ -20,11 +20,15 @@
 #
 #   http://www.gnu.org/licenses/gpl.html
 #
-# Copyright 2004-2014 Rick Graves
+# Copyright 2004-2015 Rick Graves
 #
 # getFullSpec( *sFileSpec )
 # getFullSpecDefaultOrPassed( *sFileSpec )
 
+from os             import sep as cSep
+from os.path        import join
+
+from Dir.Get        import sTempDir
 from File.Spec      import getFullSpec, getFullSpecDefaultOrPassed
 
 def QuickDump( sText, *sFileSpec, **kwargs ):
@@ -36,17 +40,23 @@ def QuickDump( sText, *sFileSpec, **kwargs ):
     from Utils.Both2n3  import print3
     from Utils.ImIf     import ImIf
     #
+    # print3( '*sFileSpec:', *sFileSpec )
+    #
     sName = getFullSpec( *sFileSpec )
+    #
+    # print3( 'sName:', sName )
     #
     bSayBytes   = kwargs.get( 'bSayBytes', True )
     sMode       = kwargs.get( 'sMode',     'w'  )
     bWantDir    = kwargs.get( 'bWantDir',  True )
     sEncoding   = kwargs.get( 'sEncoding', 'utf-8' ) 
     #
-    if bWantDir and not ( '/' in sName or chr(92) in sName ):
-        sName = '/tmp/' + sName
+    if bWantDir and not ( cSep in sName or chr(92) in sName ):
+        sName = join( sTempDir, sName )
     #
-    sNameOnly = ImIf( '/' in sName, getTextAfterLast( sName, '/' ), sName )
+    # print3( 'sName (expanded):', sName )
+    #
+    sNameOnly = ImIf( cSep in sName, getTextAfterLast( sName, cSep ), sName )
     #
     hTemp = open( sName, sMode )
     #
@@ -300,7 +310,7 @@ def putCsvOut( lOutput, *sFileSpec, **kwargs ):
     from Utils.Both2n3  import print3
     #
     if not sFileSpec :
-        sFileSpec = ( '/tmp/temp.csv', )
+        sFileSpec = ( join( sTempDir, 'temp.csv' ), )
     #
     sColDelim       = kwargs.get( 'sColDelim',      ','  )
     sQuote          = kwargs.get( 'sQuote',         '"'  )
@@ -512,13 +522,13 @@ if __name__ == "__main__":
         lProblems.append( 'PutReprInTemp()' )
         #
     #
-    sFileSpec = getRandomFileName( '/tmp' )
+    sFileSpec = getRandomFileName( sTempDir )
     #
-    WriteRepr2File( d, '/tmp', sFileSpec[ 5 : ] )
+    WriteRepr2File( d, sTempDir, sFileSpec[ 5 : ] )
     #
     sContent = getContent( sFileSpec )
     #
-    DeleteIfExists( '/tmp', sFileSpec )
+    DeleteIfExists( sTempDir, sFileSpec )
     #
     if sContent != repr( d ):
         #
@@ -529,7 +539,7 @@ if __name__ == "__main__":
                 ('line 1 col 1', 'line 1 col 2' ),
                 ('line 2 col 1', 'line 2 col 2' ) )
     #
-    putCsvOut( lLines, '/tmp/temp.txt' )
+    putCsvOut( lLines, join( sTempDir, 'temp.txt' ) )
     #
     sContent = getContent()
     #
@@ -553,7 +563,7 @@ if __name__ == "__main__":
                 ('line 1 col 1', 'line 1 col 2' ),
                 ('line 2 col 1', ) )
     #
-    putCsvOut( lLines, '/tmp/temp.txt' )
+    putCsvOut( lLines, join( sTempDir, 'temp.txt' ) )
     #
     sContent = getContent()
     #

@@ -20,17 +20,20 @@
 #
 #   http://www.gnu.org/licenses/gpl.html
 #
-# Copyright 2004-2011 Rick Graves
+# Copyright 2004-2015 Rick Graves
 #
 
+from os import sep as cSep
+
+
 def _stripLeadingSlash( sDir ):
-    if sDir[:1] == '/': sDir = sDir[1:]
+    if sDir[:1] == cSep: sDir = sDir[1:]
     return sDir
 
 
 def _getPastNextSlash( sDir ):              # returns stuff after next slast
     sDir = _stripLeadingSlash( sDir )
-    iSlashAt    = sDir.find( '/' )
+    iSlashAt    = sDir.find( cSep )
     if iSlashAt > 0:
         sDir = sDir[iSlashAt + 1 :]
     else:
@@ -71,12 +74,53 @@ def getMakeDir( *sDir ):
         makedirs( sDir )
 
 
+def _getTempDir():
+    #
+    from Dir.Test import isDirThere
+    #
+    if cSep == '/':
+        #
+        sTempDir = '/tmp'
+        #
+    else:
+        #
+        sTempDir = 'C:\\temp'
+        #
+        if not isDirThere( sTempDir ):
+            #
+            getMakeDir( sTempDir )
+            #
+        #
+    #
+    return sTempDir
+
+sTempDir = _getTempDir()
+
+#from os.path   import join
+#from Dir.Get   import sTempDir, sDurableTempDir
+
+
+def _getDurableTempDir():
+    #
+    sTempDir = _getTempDir()
+    #
+    if sTempDir.startswith( cSep ):
+        #
+        sTempDir = '/var%s' % sTempDir
+        #
+    #
+    return sTempDir
+
+sDurableTempDir = _getDurableTempDir()
+
+
 
 if __name__ == "__main__":
     #
     from os import mkdir, rmdir
-    from os.path import exists
+    from os.path import exists, join
     #
+    from Utils.Both2n3  import print3
     from Utils.Result   import sayTestResult
     #
     lProblems = []
@@ -86,30 +130,39 @@ if __name__ == "__main__":
         lProblems.append( 'getDirBelow()' )
         #
     #
-    if exists( '/tmp/test' ): rmdir( '/tmp/test' )
+    if exists( join( sTempDir, 'test' ) ): rmdir( join( sTempDir, 'test' ) )
     #
-    getMakeDir( '/tmp', 'test' )
+    getMakeDir( sTempDir, 'test' )
     #
-    if not exists( '/tmp/test' ):
+    if not exists( join( sTempDir, 'test' ) ):
         #
         lProblems.append( 'getMakeDir() /tmp test' )
         #
     else:
         #
-        rmdir( '/tmp/test' )
+        rmdir( join( sTempDir, 'test' ) )
         #
     #
-    getMakeDir( '/tmp/test' )
+    getMakeDir( join( sTempDir, 'test' ) )
     #
-    if not exists( '/tmp/test' ):
+    if not exists( join( sTempDir, 'test' ) ):
         #
         lProblems.append( 'getMakeDir() /tmp/test' )
         #
     else:
         #
-        rmdir( '/tmp/test' )
+        rmdir( join( sTempDir, 'test' ) )
         #
     #
-
+    if sTempDir not in ( sTempDir, 'C:\\temp' ):
+        #
+        print3( 'sTempDir:', sTempDir )
+        lProblems.append( '_getTempDir()' )
+        #
+    if sDurableTempDir not in ( '/var/tmp', 'C:\\temp' ):
+        #
+        lProblems.append( '_getDurableTempDir()' )
+        #
+        
     #
     sayTestResult( lProblems )

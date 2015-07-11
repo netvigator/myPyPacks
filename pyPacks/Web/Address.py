@@ -20,8 +20,13 @@
 #
 #   http://www.gnu.org/licenses/gpl.html
 #
-# Copyright 2004-2014 Rick Graves
+# Copyright 2004-2015 Rick Graves
 #
+'''
+
+need working ftp server to test?
+
+'''
 
 def _getTopLevelDomainSets():
     #
@@ -763,6 +768,9 @@ def getServerPathMinimal( sURL ):
 
 if __name__ == "__main__":
     #
+    from os.path        import join
+    #
+    from Dir.Get        import sTempDir
     from Utils.Result   import sayTestResult
     #
     lProblems = []

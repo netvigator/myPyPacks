@@ -20,13 +20,14 @@
 #
 #   http://www.gnu.org/licenses/gpl.html
 #
-# Copyright 2010-2011 Rick Graves
+# Copyright 2010-2015 Rick Graves
 #
 # example applications in sMail.GetInfo
 #
-
+from os.path        import join
 from time           import time
 
+from Dir.Get        import sTempDir
 from String.Test    import getHasSubstrTester
 from Object.Get     import SequencerClass
 from Utils.Both2n3  import print3
@@ -89,7 +90,7 @@ class ScraperClass( object ):
         #
         t = ( self.__class__.__name__, getNowIsoDateTimeNoSpaces() )
         #
-        sOutFile = '/tmp/%s_%s.html' % t
+        sOutFile = join( sTempDir, '%s_%s.html' % t )
         #
         WriteText2File( sHTML, sOutFile )
         #
@@ -163,7 +164,7 @@ class ScraperClass( object ):
             #
             if sLogFile is None: sLogFile = self.__class__.__name__
             #
-            sFileName = '/tmp/%s.log' % sLogFile
+            sFileName = join( sTempDir, '%s.log' % sLogFile )
             #
             sNow = getNowIsoDateTimeStr()
             #

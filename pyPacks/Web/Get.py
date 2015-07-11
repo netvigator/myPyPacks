@@ -20,7 +20,7 @@
 #
 #   http://www.gnu.org/licenses/gpl.html
 #
-# Copyright 2004-2012 Rick Graves
+# Copyright 2004-2015 Rick Graves
 #
 # self test needs internet connection and will access python.org
 
@@ -890,6 +890,9 @@ def getGetPageHtml(
 
 if __name__ == "__main__":
     #
+    from os.path        import join
+    #
+    from Dir.Get        import sTempDir
     from File.Write     import WriteText2File
     from sMail.Abbrev   import getStateGotCode
     from String.Get     import getTextWithin
@@ -935,7 +938,7 @@ if __name__ == "__main__":
     # if 0:
     sHTML = getGetPageHtmlSimple( sURL, dHeaders )
     #
-    sOutFile = '/tmp/simple.html'
+    sOutFile = join( sTempDir, 'simple.html' )
     #
     WriteText2File( sHTML, sOutFile )
     #
@@ -997,7 +1000,7 @@ if __name__ == "__main__":
             #
         else:
             #
-            sOutFile = '/tmp/HouseDotGov_PostTest.html'
+            sOutFile = join( sTempDir, 'HouseDotGov_PostTest.html' )
             #
             WriteText2File( sHTML, sOutFile )
             #

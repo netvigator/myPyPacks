@@ -20,7 +20,7 @@
 #
 #   http://www.gnu.org/licenses/gpl.html
 #
-# Copyright 2012 Rick Graves
+# Copyright 2012-2015 Rick Graves
 #
 # self test needs internet connection and will access www.googleapis.com
 '''
@@ -815,8 +815,10 @@ def getPageContent(
 
 if __name__ == "__main__":
     #
+    from os.path            import join
     from sys                import argv, stderr
     #
+    from Dir.Get            import sTempDir
     from File.Write         import QuickDump
     from Utils.Result       import sayTestResult
     #
@@ -837,7 +839,8 @@ if __name__ == "__main__":
                 #
                 print3( 'got page, length is %s bytes' % len( sContent ) )
                 #
-                QuickDump( sContent, '/tmp/temp.html', bSayBytes = False )
+                QuickDump( sContent, join( sTempDir, 'temp.html' ),
+                                     bSayBytes = False )
                 #
             #
         else:

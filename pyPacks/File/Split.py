@@ -4,7 +4,9 @@
 # had huge file, too big for editors
 # this breaks the file into bite-sized chunks
 #
+from os.path        import join
 
+from Dir.Get        import sTempDir
 from File.Get       import getFileObject
 from File.Spec      import getFullSpecDefaultOrPassed
 from Utils.Both2n3  import print3
@@ -19,7 +21,7 @@ def doMain( *sFileSpec ):
     #
     iThisFile       = -1
     #
-    kwargs = { 'sDefault' : '/tmp/Test.txt' }
+    kwargs = { 'sDefault' : join( sTempDir, 'Test.txt' ) }
     #
     sBigFile = getFullSpecDefaultOrPassed( *sFileSpec, **kwargs )
     #

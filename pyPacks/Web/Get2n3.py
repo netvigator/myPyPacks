@@ -20,13 +20,14 @@
 #
 #   http://www.gnu.org/licenses/gpl.html
 #
-# Copyright 2004-2012 Rick Graves
+# Copyright 2004-2015 Rick Graves
 #
 # self test needs internet connection and will access python.org
 
 from socket         import error as SocketError
 from sys            import exc_info
 
+from Dir.Get        import sTempDir
 from Utils.Config   import getConfDict
 from Utils.Both2n3  import print3, URLError
 
@@ -44,7 +45,7 @@ class getPage( object ):
     #
     def __init__( self,
             bUseCookie  = True,
-            sFileDir    = '/tmp',
+            sFileDir    = sTempDir,
             sUserAgent  = 'default',
             bAcceptGzip = False,
             iSecsPause  = 0,
@@ -280,7 +281,7 @@ class getPageForNoInternet( getPage ):
     #
     def __init__( self,
             bUseCookie  = True,
-            sFileDir    = '/tmp',
+            sFileDir    = sTempDir,
             sUserAgent  = 'default',
             bAcceptGzip = False,
             iSecsPause  = 0,

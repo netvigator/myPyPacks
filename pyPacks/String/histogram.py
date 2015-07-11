@@ -102,15 +102,18 @@ def first_things(hist, num=1):
 
 if __name__ == '__main__':
     #
+    from os.path    import join
     from sys        import argv, stdout
     from inspect    import stack
+    #
+    from Dir.Get    import sTempDir
     #
     if len(argv) > 1:
         sReadFile = argv[1]
         oOutFile  = stdout
     else:
         sReadFile = stack()[0][1]
-        oOutFile  = open( '/tmp/histogram_test_output.txt', 'w' )
+        oOutFile  = open( join( sTempDir, 'histogram_test_output.txt' ), 'w' )
     #
     hist = word_histogram(open( sReadFile ))
     #

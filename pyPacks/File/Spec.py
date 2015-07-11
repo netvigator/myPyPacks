@@ -20,10 +20,14 @@
 #
 #   http://www.gnu.org/licenses/gpl.html
 #
-# Copyright 2004-2011 Rick Graves
+# Copyright 2004-2015 Rick Graves
 #
 #from os.path import join, isfile, getmtime, split, splitext, exists, basename, isdir
 #from os      import stat, environ, getcwd, listdir, rename, remove
+
+from os.path    import join
+
+from Dir.Get    import sTempDir, sDurableTempDir
 
 
 def getPathNameExt( sSpec ):
@@ -124,7 +128,7 @@ def getFullSpecDefaultOrPassed( *tParts, **kwargs ):
     #
     if not tParts:
         #
-        sFileSpec = kwargs.get( 'sDefault', '/tmp/temp.txt' )
+        sFileSpec = kwargs.get( 'sDefault', join( sTempDir, 'temp.txt' ) )
         #
     else:
         #
@@ -143,6 +147,7 @@ if __name__ == "__main__":
     from os.path import join, exists
     from os      import rename
     #
+    from Dir.Get        import sTempDir
     from File.Del       import DeleteIfExists
     from Utils.Result   import sayTestResult
     #
@@ -164,24 +169,27 @@ if __name__ == "__main__":
         lProblems.append( 'getNameNoPathNoExt()' )
         #
     #
+    sTempFile = join( sTempDir,        'temp.txt' )
+    sDuraFile = join( sDurableTempDir, 'temp.txt' )
+    #
     if    getFullSpec(                 'temp.txt' ) !=          'temp.txt':
         #
         lProblems.append( 'getFullSpec() temp.txt' )
         #
     #
-    if    getFullSpec(         '/tmp', 'temp.txt' ) !=     '/tmp/temp.txt':
+    if    getFullSpec(         sTempDir, 'temp.txt' ) !=     sTempFile:
         #
-        lProblems.append( 'getFullSpec() /tmp/temp.txt two args' )
-        #
-    #
-    if    getFullSpec(             '/tmp/temp.txt' ) !=     '/tmp/temp.txt':
-        #
-        lProblems.append( 'getFullSpec() /tmp/temp.txt one arg' )
+        lProblems.append( 'getFullSpec() {temp dir} temp.txt two args' )
         #
     #
-    if    getFullSpec( '/var', 'tmp', 'temp.txt' ) != '/var/tmp/temp.txt':
+    if    getFullSpec(             '/tmp/temp.txt' ) !=     sTempFile:
         #
-        lProblems.append( 'getFullSpec() /var/tmp/temp.txt' )
+        lProblems.append( 'getFullSpec() {temp dir} temp.txt one arg' )
+        #
+    #
+    if    getFullSpec( '/var', 'tmp', 'temp.txt' ) != join( sDurableTempDir, 'temp.txt' ):
+        #
+        lProblems.append( 'getFullSpec() /var{temp dir} temp.txt' )
         #
     #
     tIn1    = ( '/home/Common/pyPacks/File', 'Get.py' )
@@ -217,7 +225,7 @@ if __name__ == "__main__":
         lProblems.append( 'getFullSpecDefaultOrPassed() passed two args' )
         #
     #
-    if getFullSpecDefaultOrPassed()        != '/tmp/temp.txt':
+    if getFullSpecDefaultOrPassed()        != join( sTempDir, 'temp.txt' ):
         #
         lProblems.append( 'getFullSpecDefaultOrPassed() passed nothing' )
         #

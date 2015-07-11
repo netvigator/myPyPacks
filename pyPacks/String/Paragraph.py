@@ -18,19 +18,19 @@
 #   51 Franklin Street, Fifth Floor
 #   Boston MA 02110-1301 USA
 #
-#   http://www.gnu.org/licenses/gpl.html
+# http://www.gnu.org/licenses/gpl.html
 #
-# Copyright 2004-2014 Rick Graves
+# Copyright 2004-2015 Rick Graves
 #
 
 from String.Find import getFinder
 
 _oMultiLinesFinder = getFinder( '\n\n\n+',
         bCaseSensitive = True, bMultiLine = True )
-        
+
 
 def getTextMakeParagraphs( sText = '', *sFileSpec, **kwargs ):
-    # sFile = '/tmp/temp.txt' ):
+    # sFile = join( sTempDir, 'temp.txt' )
     #
     from File.Get         import getFileContent
     from File.Spec        import getFullSpecDefaultOrPassed

@@ -20,7 +20,7 @@
 #
 #   http://www.gnu.org/licenses/gpl.html
 #
-# Copyright 2012 Rick Graves
+# Copyright 2012-2015 Rick Graves
 #
 
 '''
@@ -408,6 +408,7 @@ _dYahooExample = '''
 
 if __name__ == "__main__":
     #
+    from Dir.Get        import sTempDir
     from File.Write     import QuickDump
     from Numb.Test      import isNumber
     from Utils.Result   import sayTestResult
@@ -470,7 +471,7 @@ if __name__ == "__main__":
     if _sGotInternet != 'No':
         #
         QuickDump(  sJSON,
-                '/tmp', 'Google_getGeoCodes_response.json',
+                sTempDir, 'Google_getGeoCodes_response.json',
                 bSayBytes = False )
     #
     if sStatus != 'OK':
@@ -491,11 +492,11 @@ if __name__ == "__main__":
     if _sGotInternet != 'No':
         #
         QuickDump(  sJSON,
-                '/tmp', 'Yahoo_getGeoCodes_response.json',
+                sTempDir, 'Yahoo_getGeoCodes_response.json',
                 bSayBytes = False )
         #
         QuickDump( oYahoo.sLastURL,
-                '/tmp', 'Yahoo_getGeoCodes_URL.txt',
+                sTempDir, 'Yahoo_getGeoCodes_URL.txt',
                 bSayBytes = False )
     #
     if sStatus != 'OK':

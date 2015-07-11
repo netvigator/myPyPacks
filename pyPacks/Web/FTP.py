@@ -98,6 +98,9 @@ def FtpUploadTextFile(
 if __name__ == "__main__":
     #
     from getpass        import getpass
+    from os.path        import join
+    #
+    from Dir.Get        import sTempDir
     from File.Write     import MakeTemp
     from Utils.Result   import sayTestResult
     #
@@ -132,7 +135,9 @@ if __name__ == "__main__":
         #
         bDirOK, bUploaded = \
             FtpUploadTextFile(
-                sFtpSite, '/tmp/temp.txt', sUserName, sPassWord, sScriptDir )
+                sFtpSite,
+                join( sTempDir, 'temp.txt' ),
+                sUserName, sPassWord, sScriptDir )
         #
     #
     if not ( bDirOK and bUploaded ):

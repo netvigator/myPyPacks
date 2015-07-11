@@ -20,7 +20,7 @@
 #
 #   http://www.gnu.org/licenses/gpl.html
 #
-# Copyright 2004-2012 Rick Graves
+# Copyright 2004-2015 Rick Graves
 #
 # from os.path import join, isfile, getmtime, split, splitext, exists, basename, isdir
 # from os      import stat, environ, getcwd, listdir, rename, remove
@@ -187,6 +187,9 @@ def getDomainCount( *tParts ):
 
 if __name__ == "__main__":
     #
+    from os.path        import join
+    #
+    from Dir.Get        import sTempDir
     from File.Get       import getTempFile, getListOffFileLines
     from File.Write     import QuickDumpLines
     from Utils.Result   import sayTestResult
@@ -245,7 +248,7 @@ if __name__ == "__main__":
     #
     getDomainCount( sTempFile )
     #
-    lCounts = getListOffFileLines( '/tmp/temp.txt' )
+    lCounts = getListOffFileLines( join( sTempDir, 'temp.txt' ) )
     #
     if lCounts != ['6,house.gov', '3,python.org', '2,ebay.com', '1,iht.com']:
         #

@@ -20,7 +20,7 @@
 #
 #   http://www.gnu.org/licenses/gpl.html
 #
-# Copyright 2004-2013 Rick Graves
+# Copyright 2004-2015 Rick Graves
 #
 
 #from os.path import join, isfile, getmtime, split, splitext, exists, basename, isdir
@@ -28,7 +28,9 @@
 
 # from os.path import exists, join, isfile, isdir
 
+from os.path        import join
 
+from Dir.Get        import sTempDir
 from File.Test      import isFileThere
 from File.Spec      import getFullSpec, getFullSpecDefaultOrPassed
 
@@ -40,10 +42,10 @@ class LineParserObject( object ):
         #
         from Utils.Config     import getConfDict
         #
-        dMain       = { 'infile'  : '/tmp/LineParserTestInput.txt',
+        dMain       = { 'infile'  : join( sTempDir, 'LineParserTestInput.txt' ),
                         'rowhead' : 'new row',
                         'colhead1': 'next row',
-                        'outfile' : '/tmp/LineParserTestOutput.txt' }
+                        'outfile' : join( sTempDir, 'LineParserTestOutput.txt' ) }
         dDefaults   = { 'main' : dMain }
         bNoConfigOK = ( sConfFile == 'LineParserTest.conf' )
         #
@@ -158,13 +160,13 @@ def getContent( *sFileSpec ):
 def getRandomFileName( sDir = None, bCreate = False ):
     #
     from os             import environ
-    from os.path        import isfile, join, isdir
+    from os.path        import isfile, isdir
     #
     from Numb.Get       import getRandomDigits
     #
     if sDir is None:
         #
-        sDir            = environ.get( 'HOME', '/tmp' )
+        sDir            = environ.get( 'HOME', sTempDir )
         #
     #
     if not isdir( sDir ): sDir = '' # put in current directory

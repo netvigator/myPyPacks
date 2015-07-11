@@ -20,7 +20,7 @@
 #
 #   http://www.gnu.org/licenses/gpl.html
 #
-# Copyright 2004-2011 Rick Graves
+# Copyright 2004-2015 Rick Graves
 #
 '''
 simplified facade for the python logging module
@@ -66,6 +66,7 @@ if __name__ == "__main__":
     #
     from time import sleep
     #
+    from Dir.Get        import sTempDir
     from File.Del       import DeleteIfExists
     from File.Get       import getRandomFileName, getListFromFileLines
     from Time.Output    import sayIsoDateTimeLocal
@@ -74,7 +75,7 @@ if __name__ == "__main__":
     #
     lProblems = []
     #
-    sTempFile0 = getRandomFileName( '/tmp' )
+    sTempFile0 = getRandomFileName( sTempDir )
     #
     oTestLogger0 = getSimpleDateTimeDataLogger( sTempFile0 )
     #
@@ -100,8 +101,8 @@ if __name__ == "__main__":
     #
     DeleteIfExists( sTempFile0 )
     #
-    sTempFile1 = getRandomFileName( '/tmp' )
-    sTempFile2 = getRandomFileName( '/tmp' )
+    sTempFile1 = getRandomFileName( sTempDir )
+    sTempFile2 = getRandomFileName( sTempDir )
     #    
     oTestLogger1 = getDateTimeDataLoggerMultipleOK( sTempFile1, '1' )
     oTestLogger2 = getDateTimeDataLoggerMultipleOK( sTempFile2, '2' )

@@ -766,9 +766,11 @@ if __name__ == "__main__":
     #p.run('main(sys.argv[1:])')
     #p.close()
     #
-    from sys import argv
-    from FileMethods import QuickDump
+    from os.path    import join
+    from sys        import argv
+    from File.Write import QuickDump
     #
+    from Dir.Get    import sTempDir
     try:
         if len( argv ) >= 2:
             #
@@ -784,7 +786,7 @@ if __name__ == "__main__":
                 #
                 print3( 'got page, length is %s bytes' % len( sContent ) )
                 #
-                QuickDump( sContent, '/tmp/temp.txt', bSayBytes = False )
+                QuickDump( sContent, join( sTempDir, 'temp.txt' ), bSayBytes = False )
                 #
             #
         else:

@@ -20,7 +20,7 @@
 #
 #   http://www.gnu.org/licenses/gpl.html
 #
-# Copyright 2004-2013 Rick Graves
+# Copyright 2004-2015 Rick Graves
 #
 
 def _getCountryCodeTuple( bUpper = False ):
@@ -332,6 +332,9 @@ def getCountryDict( dCountryCodes = dCountryCodes ):
 
 def _getCodesFromTextFile( *sFileSpec, **kwargs ):
     #
+    from os.path        import join
+    #
+    from Dir.Get        import sDurableTempDir
     from File.Get       import getFileObject
     from File.Spec      import getFullSpecDefaultOrPassed
     from File.Write     import MakeTemp
@@ -339,7 +342,7 @@ def _getCodesFromTextFile( *sFileSpec, **kwargs ):
     from String.Get     import getTextAfter, getTextWithin
     #
     if 'sDefault' not in kwargs:
-        kwargs['sDefault'] = '/var/tmp/country_codes.txt'
+        kwargs['sDefault'] = join( sDurableTempDir, 'country_codes.txt' )
     #
     sFileSpec           = getFullSpecDefaultOrPassed( *sFileSpec, **kwargs )
     #

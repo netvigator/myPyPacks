@@ -20,7 +20,7 @@
 #
 #   http://www.gnu.org/licenses/gpl.html
 #
-# Copyright 2004-2011 Rick Graves
+# Copyright 2004-2015 Rick Graves
 #
 
 def isDirThere( sDir ):
@@ -44,16 +44,17 @@ def isDirThereAndWritable( sDir ):
 
 if __name__ == "__main__":
     #
+    from Dir.Get        import sTempDir
     from Utils.Result   import sayTestResult
     #
     lProblems = []
     #
-    if isDirThere( '/xyz' ) or not isDirThere( '/tmp' ):
+    if isDirThere( '/xyz' ) or not isDirThere( sTempDir ):
         #
         lProblems.append( 'isDirThere()' )
         #
     #
-    if isDirWritable( '/root' ) or not isDirWritable( '/tmp' ):
+    if isDirWritable( '/root' ) or not isDirWritable( sTempDir ):
         #
         lProblems.append( 'isDirWritable()' )
         #

@@ -20,9 +20,10 @@
 #
 #   http://www.gnu.org/licenses/gpl.html
 #
-# Copyright 2004-2014 Rick Graves
+# Copyright 2004-2015 Rick Graves
 #
 
+from Dir.Get        import sTempDir
 from File.Test      import isFileThere
 from Iter.AllVers   import iMap, tMap
 from String.Find    import getFinder
@@ -344,6 +345,9 @@ if __name__ == "__main__":
     #
     lProblems = []
     #
+    from os.path        import join
+    #
+    from Dir.Get        import sTempDir
     from File.Write     import MakeTemp, putListInTemp
     from String.Get     import getInDoubleQuotes
     from Utils.Result   import sayTestResult
@@ -371,13 +375,13 @@ if __name__ == "__main__":
                 'uid'   : '26272',
                 'name'  : 'Linus Tovalds'           } ]
     #
-    if getDictListOffCSV( '/tmp', 'temp.txt' ) != lWant:
+    if getDictListOffCSV( sTempDir, 'temp.txt' ) != lWant:
         #
         lProblems.append( 'getDictListOffCSV() CSV for Excel' )
         #
-        print3( getDictListOffCSV( '/tmp/temp.txt' ) )
+        print3( getDictListOffCSV( join( sTempDir, 'temp.txt' ) ) )
     #
-    oIter = getDictIterOffCSV( '/tmp', 'temp.txt' )
+    oIter = getDictIterOffCSV( sTempDir, 'temp.txt' )
     #
     if list( oIter ) != lWant:
         #
@@ -394,12 +398,12 @@ if __name__ == "__main__":
     #
     MakeTemp( sTestExcel, bSayBytes = False )
     #
-    if getDictListOffCSV( '/tmp', 'temp.txt' ) != lWant:
+    if getDictListOffCSV( sTempDir, 'temp.txt' ) != lWant:
         #
         lProblems.append( 'getDictListOffCSV() CSV for Excel no quotes' )
         #
     #
-    sLine0 = getFirstLine( '/tmp', 'temp.txt' )
+    sLine0 = getFirstLine( sTempDir, 'temp.txt' )
     #
     if sLine0 != '"uid","name","email"':
         #
@@ -413,7 +417,7 @@ if __name__ == "__main__":
 '''
     MakeTemp( sTestPlain, bSayBytes = False )
     #
-    if getDictListOffCSV( '/tmp/temp.txt' ) != \
+    if getDictListOffCSV( join( sTempDir, 'temp.txt' ) ) != \
             [ { 'body_label': 'Body',
                 'orig_type': 'page',
                 'locked': '0',
@@ -445,14 +449,14 @@ if __name__ == "__main__":
         #
         lProblems.append( 'getDictListOffCSV() CSV plain' )
         #
-        print3( getDictListOffCSV( '/tmp/temp.txt' ) )
+        print3( getDictListOffCSV( join( sTempDir, 'temp.txt' ) ) )
     #
     #
     lTest = [ 'a', 'b', 'c', 'd' ]
     #
     putListInTemp( iMap( getInDoubleQuotes, lTest + [ '' ] ) )
     #
-    if setFromFileLines( '/tmp', 'temp.txt' ) != frozenset( lTest ):
+    if setFromFileLines( sTempDir, 'temp.txt' ) != frozenset( lTest ):
         #
         lProblems.append( 'setFromFileLines()' )
         #

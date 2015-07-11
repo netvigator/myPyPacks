@@ -20,7 +20,7 @@
 #
 #   http://www.gnu.org/licenses/gpl.html
 #
-# Copyright 2004-2013 Rick Graves
+# Copyright 2004-2015 Rick Graves
 #
 class Failure( Exception ): pass
 #
@@ -343,6 +343,7 @@ def dumpEmailBodies2Temp( l, getMsgInfo,
     '''
     #
     from Dict.Get       import getValueIter, getKeyList
+    from Dir.Get        import sTempDir
     from eMail.Get      import getHyphen
     from File.Write     import putCsvOut, QuietDump
     from Iter.Get       import getListSwapValueKey
@@ -408,7 +409,7 @@ def dumpEmailBodies2Temp( l, getMsgInfo,
         lCounts.reverse()
         #
         lCounts[0:0] = [ ( 'count', 'subject' ) ]
-        putCsvOut( lCounts, '/tmp', 'subject_counts.csv' )
+        putCsvOut( lCounts, sTempDir, 'subject_counts.csv' )
         
         
         

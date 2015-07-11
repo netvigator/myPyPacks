@@ -52,8 +52,10 @@ def getUniqueLinks( sReadFile, sOutFile ):
 
 if __name__ == "__main__":
     #
+    from os.path        import join
     from sys            import argv
     #
+    from Dir.Get        import sTempDir
     from File.Test      import isFileThere
     from Utils.Both2n3  import print3
     from Utils.Result   import sayTestResult
@@ -62,8 +64,8 @@ if __name__ == "__main__":
     #
     args = argv[ 1 : ]
     #
-    sReadFile   = '/tmp/lotsolinks.txt'
-    sOutFile    = '/tmp/UniqueLinks.txt'
+    sReadFile   = join( sTempDir, 'LotsOfLinks.txt' )
+    sOutFile    = join( sTempDir, 'UniqueLinks.txt' )
     #
     if args:
         #
@@ -83,8 +85,8 @@ if __name__ == "__main__":
         else:
             #
             print3( 'Usage: WantLinks [inputFile [, outputFile] ]' )
-            print3( 'default inputFile  /tmp/lotsolinks.txt' )
-            print3( 'default outputFile /tmp/UniqueLinks.txt' )
+            print3( 'default inputFile  {temp dir}lotsolinks.txt' )
+            print3( 'default outputFile {temp dir}UniqueLinks.txt' )
             #
         #
     #

@@ -37,8 +37,9 @@ def PutPageInTemp( sURL, tProxy = ('', -1), **dMoreLines ):
 
 if __name__ == "__main__":
     #
-    from os.path    import exists
+    from os.path        import exists, join
     #
+    from Dir.Get        import sTempDir
     from File.Info      import getSize, getModTime
     from Time.Clock     import getSecsSinceEpoch
     from Utils.Result   import sayTestResult
@@ -49,7 +50,7 @@ if __name__ == "__main__":
     #
     PutPageInTemp( 'www.python.org' )
     #
-    sTempFile   = '/tmp/temp.txt'
+    sTempFile   = join( sTempDir, 'temp.txt' )
     #
     if not exists( sTempFile ):
         #

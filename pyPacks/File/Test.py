@@ -20,7 +20,7 @@
 #
 #   http://www.gnu.org/licenses/gpl.html
 #
-# Copyright 2004-2011 Rick Graves
+# Copyright 2004-2015 Rick Graves
 #
 
 #from os.path import join, isfile, getmtime, split, splitext, exists, basename, isdir
@@ -81,6 +81,7 @@ if __name__ == "__main__":
     from os             import remove
     from os.path        import split
     #
+    from Dir.Get        import sTempDir
     from File.Get       import getTempFile
     from Utils.Result   import sayTestResult
     #
@@ -100,9 +101,9 @@ if __name__ == "__main__":
     #
     remove( sTemp )
     #
-    if      not hasWritePrivilege( '/tmp' ) or \
-                hasWritePrivilege( '/etc' ) or \
-                hasWritePrivilege( 'wxyz' ):
+    if    ( not hasWritePrivilege( sTempDir      ) or
+                hasWritePrivilege( '/etc'        ) or
+                hasWritePrivilege( 'c:\\Windows' ) ):
         #
         lProblems.append( 'hasWritePrivilege()' )
         #

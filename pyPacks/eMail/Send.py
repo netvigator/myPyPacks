@@ -24,6 +24,8 @@
 #
 # self test actually tries to send email, so need working internet
 
+from os.path        import join
+
 from Dict.Get       import getItemIter        as _getItemIter
 from String.Encrypt import DecryptLite, Decrypt
 from String.Test    import getHasSubstrTester as _getHasSubstrTester
@@ -280,6 +282,7 @@ def _putErrorMsg( uTo, oExceptMsg, oTraceBack, sErrorFile, sMsg ):
     #
     from sys            import exc_info
     #
+    from Dir.Get        import sTempDir
     from File.Write     import openAppendClose, QuickDump
     from Time.Output    import sayGMT
     #
@@ -305,7 +308,7 @@ def _putErrorMsg( uTo, oExceptMsg, oTraceBack, sErrorFile, sMsg ):
         #
     #
     QuickDump(  sMsg,
-                '/tmp', 'email_mime_%s.txt' % sayGMT( sBetween = '_' ),
+                sTempDir, 'email_mime_%s.txt' % sayGMT( sBetween = '_' ),
                 bSayBytes = False )
     
 
@@ -531,9 +534,10 @@ def SendEmailsOffList( l,
     Function fGetMsgInfo must return sBody, uTo, uCC, uBcc from list item.
     '''
     #
-    from time               import sleep
     from sys                import stdout
+    from time               import sleep
     #
+    from Dir.Get            import sDurableTempDir
     from eMail.Get          import getHyphen
     from eMail.Test         import isSentBefore
     from String.Output      import Plural, ReadableNo
@@ -542,9 +546,9 @@ def SendEmailsOffList( l,
     #
     sGMT = sayGMT( sBetween = '_' )
     #
-    sErrorFile  = '/var/tmp/email_errors_%s.txt'  % sGMT
-    sSendFile   = '/var/tmp/email_sendlog_%s.txt' % sGMT
-    sAsIfFile   = '/var/tmp/email_AsIfLog_%s.txt' % sGMT
+    sErrorFile  = join( sDurableTempDir, 'email_errors_%s.txt'  % sGMT )
+    sSendFile   = join( sDurableTempDir, 'email_sendlog_%s.txt' % sGMT )
+    sAsIfFile   = join( sDurableTempDir, 'email_AsIfLog_%s.txt' % sGMT )
     #
     oSentB4         = frozenset( oSentB4 )
     #
@@ -675,6 +679,7 @@ if __name__ == "__main__":
     #
     from time           import sleep
     #
+    from Dir.Get        import sTempDir
     from eMail.Get      import getRealPerCent
     from File.Write     import MakeTemp
     from Utils.Config   import getConfigOptions
@@ -709,11 +714,9 @@ if __name__ == "__main__":
     #
     MakeTemp( sMessage, bSayBytes = False )
     #
-    # lAttachments    = [ '/tmp/temp.txt' ],
     #
     print3( 'Sending single email message ...' )
     #
-    #       lAttachments    = [ '/tmp/temp.txt' ],
     SendOneMessage(
             sServerOut, sFrom, sTo, sSubject,
             getMessageBody( sBodyHtml, dAddressee ),
@@ -780,7 +783,7 @@ if __name__ == "__main__":
         bHtmlMsg        = True,
         oSentB4         = [],
         fDecryptPassword= fDecrypt,
-        lAttachments    = [ '/tmp/temp.txt' ],
+        lAttachments    = [ join( sTempDir, 'temp.txt' ) ],
         **kwargs )
     #
     sayTestResult( lProblems )
